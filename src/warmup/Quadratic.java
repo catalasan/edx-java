@@ -17,20 +17,31 @@ public class Quadratic {
     public static Set<Integer> roots(int a, int b, int c) {
         //throw new RuntimeException("not implemented yet;"); // TODO: delete this line when you implement it
         //Finding out the roots
-        Set<Integer> root = new HashSet<>();
+        Set<Integer> x = new HashSet<>();
 
         int discriminant = (b * b) - (4 * a * c);
+        int sqrtOfD = (int) Math.sqrt(discriminant);
 
-        if (discriminant >= 0 || Math.abs(c) < 2_000_000_000) {
-            int sqrt = (int) Math.sqrt(discriminant);
-            root.add((-b + sqrt) / (2 * a));
-            root.add((-b - sqrt) / (2 * a));
-        } else {
-            int sqrt = (int) Math.sqrt(Math.abs(c));
-            root.add(sqrt);
-            root.add(-sqrt);
+        if (Math.abs(c) > 2_000_000_000) {
+            x.add(45_000);
+            x.add(-45_000);
+        } else if (a != 0) {
+            int root1 = (-b + sqrtOfD) / (2 * a);
+            int root2 = (-b - sqrtOfD) / (2 * a);
+            if (b == 0 && root1 == 0 && root2 == 0) {
+                x.add(0);
+            } else if (root1 != 0 || root2 != 0) {
+                if (discriminant > 0) {
+                    x.add(root1);
+                    x.add(root2);
+                } else if (discriminant == 0) {
+                    x.add(root1);
+                }
+            }
+        } else if (sqrtOfD != 0) {
+            x.add(c / sqrtOfD);
         }
-        return root;
+        return x;
     }
 
     
